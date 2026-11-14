@@ -290,6 +290,7 @@ public partial class MainForm : Form
             var placement = PrincePlacement();
             return placement.Left + placement.Width <= 0 || placement.Left >= config.Stage.Width;
         }
+        static Keys ScenarioShortcut(int index) => index == 9 ? Keys.D0 : (Keys)((int)Keys.D1 + index);
         Require(this is Form && stageView is Control, "Preview is not a Windows Forms surface.");
         StartScenario(config.Scenarios.FindIndex(s => s.HasPotion));
         var initialLeadX = engine.X;
@@ -359,8 +360,8 @@ public partial class MainForm : Form
         var greetingIndex = config.Scenarios.FindIndex(s => s.Id == "greet-princess");
         Require(greetingIndex >= 0, "The Princess greeting is missing from the scenario selector.");
         stageView.Focus();
-        Require(TryShortcut(Keys.D6) && scenarioComboBox.SelectedIndex == greetingIndex,
-            "The sixth scenario shortcut did not select the greeting.");
+        Require(TryShortcut(ScenarioShortcut(greetingIndex)) && scenarioComboBox.SelectedIndex == greetingIndex,
+            "The greeting's number shortcut did not select the greeting.");
         Require(engine.TicksPerSecond == 10 && timingLabel.Text.StartsWith("10 "), "Greeting did not select the cutscene clock.");
         while (engine.PrimaryVisible && !engine.Completed) engine.Tick();
         restartButton.PerformClick();
@@ -370,7 +371,8 @@ public partial class MainForm : Form
             "Restart did not reset both greeting actors.");
         var mirroredGreetingIndex = config.Scenarios.FindIndex(s => s.Id == "greet-princess-left");
         Require(mirroredGreetingIndex >= 0, "The mirrored Princess greeting is missing from the scenario selector.");
-        scenarioComboBox.SelectedIndex = mirroredGreetingIndex;
+        Require(TryShortcut(ScenarioShortcut(mirroredGreetingIndex)) && scenarioComboBox.SelectedIndex == mirroredGreetingIndex,
+            "The mirrored greeting's number shortcut did not select the greeting.");
         var mirroredGreeting = config.Scenarios[mirroredGreetingIndex];
         Require(engine.Scenario == mirroredGreeting && engine.Direction == mirroredGreeting.Direction,
             "The scenario selector did not start the mirrored greeting.");
@@ -390,34 +392,13 @@ public partial class MainForm : Form
         playButton.PerformClick();
         Require(playing && engine.ElapsedTicks == 0 && engine.Scenario == mirroredGreeting && engine.PrimaryVisible,
             "Replay did not restart the selected mirrored greeting.");
-        var returnIndex = config.Scenarios.FindIndex(s => s.Id == "potion-return-right");
-        Require(returnIndex >= 0, "The potion-and-return scenario is missing from the scenario selector.");
-        Require(TryShortcut(Keys.D7) && scenarioComboBox.SelectedIndex == returnIndex && engine.Direction == -1 && engine.PotionVisible,
-            "The seventh scenario shortcut did not select its initial leftward run and potion.");
-        while (!engine.PotionConsumed && !engine.Completed) engine.Tick();
-        Require(engine.PotionConsumed && !engine.PotionVisible, "The seventh scenario did not drink its potion.");
-        restartButton.PerformClick();
-        Require(engine.ElapsedTicks == 0 && engine.Direction == -1 && engine.PotionVisible && !engine.PotionConsumed,
-            "Restart did not restore the seventh scenario's initial facing and potion.");
-        var leftReturnIndex = config.Scenarios.FindIndex(s => s.Id == "potion-return-left");
-        Require(leftReturnIndex >= 0, "The left-entry potion-and-return scenario is missing from the scenario selector.");
-        Require(TryShortcut(Keys.D8) && scenarioComboBox.SelectedIndex == leftReturnIndex && engine.Direction == 1 && engine.PotionVisible,
-            "The eighth scenario shortcut did not select its initial rightward run and potion.");
-        AdvanceUntil(() => engine.ClipName == "standingTurn", "The eighth scenario did not turn before drinking.");
-        Require(engine.Direction == -1 && engine.PotionVisible && !engine.PotionConsumed,
-            "The eighth scenario did not face left while its potion was still available.");
-        AdvanceUntil(() => engine.PotionConsumed, "The eighth scenario did not drink its potion after turning.");
-        restartButton.PerformClick();
-        Require(engine.ElapsedTicks == 0 && engine.ClipName == "run" && engine.Direction == 1 && engine.PotionVisible && !engine.PotionConsumed,
-            "Restart did not restore the eighth scenario's entry run and potion.");
-        foreach (var (id, shortcut, direction) in new[]
+        foreach (var potionScenario in config.Scenarios.Where(s => s.HasPotion))
         {
-            ("potion-direct-return-right", Keys.D9, -1),
-            ("potion-direct-return-left", Keys.D0, 1)
-        })
-        {
-            var directIndex = config.Scenarios.FindIndex(s => s.Id == id);
-            Require(directIndex >= 0 && TryShortcut(shortcut) && scenarioComboBox.SelectedIndex == directIndex &&
+            var id = potionScenario.Id;
+            var direction = potionScenario.Direction;
+            var directIndex = config.Scenarios.IndexOf(potionScenario);
+            var shortcut = ScenarioShortcut(directIndex);
+            Require(TryShortcut(shortcut) && scenarioComboBox.SelectedIndex == directIndex &&
                 engine.Direction == direction && engine.PotionVisible, $"Shortcut {shortcut} did not select {id}.");
             AdvanceUntil(() => engine.ClipName != "run", $"{id} did not finish its incoming run.");
             Require(engine.ClipName == "shortStop", $"{id} did not brake before drinking.");
@@ -451,7 +432,7 @@ public partial class MainForm : Form
                 engine.PotionVisible && !engine.PotionConsumed, $"Restart did not restore {id}'s running entry and potion.");
         }
         cycleCheckBox.Checked = true;
-        StartScenario(config.Scenarios.FindIndex(s => s.HasPotion));
+        StartScenario(config.Scenarios.FindIndex(s => s.Actors.Count > 0));
         var cycleRoute = new List<int> { scenarioComboBox.SelectedIndex + 1 };
         for (var expectedIndex = scenarioComboBox.SelectedIndex + 1; expectedIndex < config.Scenarios.Count; expectedIndex++)
         {
@@ -625,66 +606,6 @@ public partial class MainForm : Form
                 SavePreview(Path.Combine(directory, $"{prefix}-departure.png"));
                 continue;
             }
-            if (engine.Scenario.HasPotion)
-            {
-                var potionPrefix = engine.Scenario.Id switch
-                {
-                    "potion-return-right" => "preview-7-potion",
-                    "potion-return-left" => "preview-8-potion",
-                    _ => "preview-potion"
-                };
-                UpdateDisplay();
-                SavePreview(Path.Combine(directory, $"{potionPrefix}-bubbling.png"));
-                if (engine.Scenario.Id == "potion-return-left")
-                {
-                    AdvanceUntil(() => engine.ClipName == "stop", "The eighth scenario did not brake by the potion.");
-                    for (var i = 0; i < 3; i++) engine.Tick();
-                    UpdateDisplay();
-                    SavePreview(Path.Combine(directory, "preview-8-stop.png"));
-                    AdvanceUntil(() => engine.ClipName == "standingTurn", "The eighth scenario did not turn before pickup.");
-                    for (var i = 0; i < 4; i++) engine.Tick();
-                    Require(engine.Direction == -1 && engine.PotionVisible && !engine.PotionConsumed,
-                        "The eighth scenario picked up its potion before turning left.");
-                    UpdateDisplay();
-                    SavePreview(Path.Combine(directory, "preview-8-turn.png"));
-                }
-                AdvanceUntil(() => engine.ClipName == "crouch", $"Scenario {index + 1} did not crouch for its potion.");
-                Require(engine.PotionVisible, "Potion disappeared before the pickup animation.");
-                UpdateDisplay();
-                SavePreview(Path.Combine(directory, $"{potionPrefix}-pickup.png"));
-            }
-            if (engine.Scenario.Id == "potion-return-right")
-            {
-                while (engine.ClipName != "standingTurn" && !engine.Completed) engine.Tick();
-                Require(engine.ClipName == "standingTurn", "The seventh scenario did not use the standing turn.");
-                for (var i = 0; i < 4; i++) engine.Tick();
-                UpdateDisplay();
-                SavePreview(Path.Combine(directory, "preview-7-turn.png"));
-                while (engine.ClipName != "run" && !engine.Completed) engine.Tick();
-                Require(engine.ClipName == "run" && engine.Direction == 1 && engine.PotionConsumed && !engine.PotionVisible,
-                    "The seventh scenario did not turn right and depart after drinking.");
-                for (var i = 0; i < 6; i++) engine.Tick();
-                UpdateDisplay();
-                SavePreview(Path.Combine(directory, "preview-7-departure.png"));
-                SavePreview(Path.Combine(directory, $"{Path.GetFileNameWithoutExtension(path)}-{index + 1}.png"));
-                continue;
-            }
-            if (engine.Scenario.Id == "potion-return-left")
-            {
-                AdvanceUntil(() => engine.ClipName == "drink", "The eighth scenario did not drink after turning left.");
-                for (var i = 0; i < 12; i++) engine.Tick();
-                Require(engine.Direction == -1 && !engine.PotionVisible, "The eighth scenario did not drink facing left.");
-                UpdateDisplay();
-                SavePreview(Path.Combine(directory, "preview-8-drink.png"));
-                SavePreview(Path.Combine(directory, $"{Path.GetFileNameWithoutExtension(path)}-{index + 1}.png"));
-                AdvanceUntil(() => engine.ClipName == "run", "The eighth scenario did not depart after drinking.");
-                Require(engine.Direction == -1 && engine.PotionConsumed && !engine.PotionVisible,
-                    "The eighth scenario did not run back left after drinking.");
-                for (var i = 0; i < 6; i++) engine.Tick();
-                UpdateDisplay();
-                SavePreview(Path.Combine(directory, "preview-8-departure.png"));
-                continue;
-            }
             if (engine.Scenario.Actors.Count > 0)
             {
                 var actor = engine.SupportingActors.Single();
@@ -708,11 +629,11 @@ public partial class MainForm : Form
                 SavePreview(Path.Combine(directory, $"{Path.GetFileNameWithoutExtension(path)}-{index + 1}.png"));
                 continue;
             }
-            var desired = index is 2 or 3 ? "skidTurn" : index == 4 ? "drink" : "run";
+            var desired = engine.Scenario.Steps.Any(s => s.Clip == "skidTurn") ? "skidTurn" : "run";
             var guard = 0;
             while (engine.ClipName != desired && !engine.Completed && guard++ < 10000) engine.Tick();
             if (desired == "run") AdvanceUntil(PrinceFullyOnStage, $"Scenario {index + 1} did not run into view.");
-            for (var i = 0; i < (desired == "drink" ? 12 : desired == "skidTurn" ? 8 : 6); i++) engine.Tick();
+            for (var i = 0; i < (desired == "skidTurn" ? 8 : 6); i++) engine.Tick();
             UpdateDisplay();
             var name = index == 0 ? path : Path.Combine(directory, $"{Path.GetFileNameWithoutExtension(path)}-{index + 1}.png");
             SavePreview(name);
@@ -721,7 +642,7 @@ public partial class MainForm : Form
         guidesCheckBox.Checked = true;
         SavePreview(Path.Combine(directory, "preview-minimum-guides.png"));
         File.WriteAllText(Path.Combine(directory, "ui-smoke-checks.txt"),
-            $"PASS (Windows Forms): native controls, pause, one-tick step, configured entrance delays/lead-in captures/restart with ambient potion bubbles, original potion bubbles/reset/pickup renders, scenario selection, speed, guides, embedded defaults reload, failed settings/missing embedded image preserves playback, read-only embedded JSON viewer, {config.Scenarios.Count} offscreen entries/scenario renders, greeting shortcut/restart/clock, mirrored greeting selection/restart/replay, seventh shortcut/restart/standing turn/rightward departure, eighth shortcut/restart/braking/turn-before-drink/leftward departure, ninth/tenth shortcuts/restart/eight-pose braking/one-tick standing-to-drink boundaries/seven-pose turn-to-start boundaries/return departures, cycling {string.Join("->", cycleRoute)}, both greeting approaches/combined-sprite handoffs/final embraces, careful-step selection/entry/configured stationary hold/backing/final offscreen/replay in both directions, minimum window layout.\n");
+            $"PASS (Windows Forms): native controls, pause, one-tick step, configured entrance delays/lead-in captures/restart with ambient potion bubbles, potion bubbles/reset/drinking renders, scenario selection, speed, guides, embedded defaults reload, failed settings/missing embedded image preserves playback, read-only embedded JSON viewer, {config.Scenarios.Count} offscreen entries/scenario renders, greeting shortcuts/restart/clock, mirrored greeting selection/restart/replay, potion shortcuts/restart/braking/standing-to-drink boundaries/turn-to-start boundaries/return departures, cycling {string.Join("->", cycleRoute)}, both greeting approaches/combined-sprite handoffs/final embraces, careful-step selection/entry/configured stationary hold/backing/final offscreen/replay in both directions, minimum window layout.\n");
     }
 
     private void SavePreview(string path)

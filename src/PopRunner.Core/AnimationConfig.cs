@@ -147,7 +147,7 @@ public sealed class DesktopConfig
     public string[] RandomScenarioIds { get; set; } =
     [
         "across-right", "across-left", "turn-from-left", "turn-from-right",
-        "greet-princess", "potion-direct-return-right", "potion-direct-return-left", "greet-princess-left",
+        "greet-princess", "greet-princess-left", "potion-direct-return-right", "potion-direct-return-left",
         "careful-step-right", "careful-step-left"
     ];
     public double ActionEdgeFraction { get; set; } = 1.0 / 3;

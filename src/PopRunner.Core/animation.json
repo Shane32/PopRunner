@@ -14,12 +14,10 @@
     "The large red potion uses original dungeon body resource 163 plus red bubbles 166-172. potionGraphics offsets are native pixels; Y offsets set the exclusive sprite bottom relative to floorY+1.",
     "potionGraphics.alignWithFeet shifts the bottle and bubbles together so the bottle rests at the Prince's feet. Disable it to restore the original DOS Y offsets without changing them.",
     "Potion bubbles share the scenario tick clock. ticksPerFrame controls their animation; initialBubbleFrame fixes the original randomized starting phase for reproducible playback.",
-    "standingTurn uses original poses 45-52. Its first frame dx -6 then flip reproduces the original flip-before-dx +6; subsequent movement follows the new direction.",
     "Running entrances begin in the running loop fully outside the room. Phase-congruent starts retain the original braking positions and legal exit poses.",
     "startDelayTicks holds the Prince offscreen and supporting actors in their initial poses before the entrance. Potion bubbles animate on the elapsed scenario clock during the hold; actor scripts begin together afterward.",
     "Potion scenes have a 24-tick lead at 12 Hz and greeting scenes a 20-tick lead at 10 Hz, showing the potion or Princess for two seconds before the Prince starts running.",
     "The Princess waits 10 ticks for the offscreen running entrance, preserving the original contact alignment and combined-sprite handoff.",
-    "potion-return-left brakes at X 49, stands at 58, turns left to 51, then reaches and drinks at the same X 44 as the other potion scenes.",
     "The quick potion variants brake with all eight shortStop poses 53,54,55,56,49,50,51,52, retaining all 9 root movement units. shortStand holds standing pose 15 for one tick before the unchanged drink clip.",
     "After drinking, shortRecover holds standing pose 15 for one tick. shortStandingTurn then uses poses 45-51, omitting settling pose 52 and retaining the original flip and 7-unit translation; acceleration follows immediately without a standing pause.",
     "Quick potion pickup roots remain X 44 with potionX 46 facing left, and the mirrored X 96 with potionX 94 facing right. Original odd-pixel alignment and integer truncation are retained.",
@@ -42,9 +40,9 @@
       "turn-from-left",
       "turn-from-right",
       "greet-princess",
+      "greet-princess-left",
       "potion-direct-return-right",
       "potion-direct-return-left",
-      "greet-princess-left",
       "careful-step-right",
       "careful-step-left"
     ]
@@ -295,24 +293,6 @@
       "anchorX": 0,
       "anchorY": 0,
       "oddPixel": true
-    },
-    "107": {
-      "image": "Assets/Prince/res518.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "108": {
-      "image": "Assets/Prince/res519.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "109": {
-      "image": "Assets/Prince/res520.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
     },
     "121": {
       "image": "Assets/Prince/res534.png",
@@ -1037,19 +1017,6 @@
         }
       ]
     },
-    "stand": {
-      "label": "Standing",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
-      "frames": [
-        {
-          "frame": 15,
-          "dx": 0,
-          "ticks": 2
-        }
-      ]
-    },
     "shortStand": {
       "label": "Stopped before drinking",
       "loop": false,
@@ -1058,29 +1025,6 @@
       "frames": [
         {
           "frame": 15,
-          "dx": 0,
-          "ticks": 1
-        }
-      ]
-    },
-    "crouch": {
-      "label": "Reaching for potion",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
-      "frames": [
-        {
-          "frame": 107,
-          "dx": 1,
-          "ticks": 1
-        },
-        {
-          "frame": 108,
-          "dx": 2,
-          "ticks": 1
-        },
-        {
-          "frame": 109,
           "dx": 0,
           "ticks": 1
         }
@@ -1191,19 +1135,6 @@
         }
       ]
     },
-    "recover": {
-      "label": "Potion restored",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
-      "frames": [
-        {
-          "frame": 15,
-          "dx": 0,
-          "ticks": 5
-        }
-      ]
-    },
     "shortRecover": {
       "label": "Potion restored",
       "loop": false,
@@ -1212,55 +1143,6 @@
       "frames": [
         {
           "frame": 15,
-          "dx": 0,
-          "ticks": 1
-        }
-      ]
-    },
-    "standingTurn": {
-      "label": "Turning around",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
-      "frames": [
-        {
-          "frame": 45,
-          "dx": -6,
-          "ticks": 1,
-          "flip": true
-        },
-        {
-          "frame": 46,
-          "dx": 1,
-          "ticks": 1
-        },
-        {
-          "frame": 47,
-          "dx": 2,
-          "ticks": 1
-        },
-        {
-          "frame": 48,
-          "dx": -1,
-          "ticks": 1
-        },
-        {
-          "frame": 49,
-          "dx": 1,
-          "ticks": 1
-        },
-        {
-          "frame": 50,
-          "dx": -2,
-          "ticks": 1
-        },
-        {
-          "frame": 51,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 52,
           "dx": 0,
           "ticks": 1
         }
@@ -1582,101 +1464,6 @@
       ]
     },
     {
-      "id": "potion",
-      "title": "Stop for a potion",
-      "subtitle": "Run left, brake, drink, continue left.",
-      "route": "R  \u003e  potion  \u003e  L",
-      "direction": -1,
-      "startX": 164,
-      "hasPotion": true,
-      "startDelayTicks": 24,
-      "potionX": 46,
-      "steps": [
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": 71,
-          "exitOnFrames": [
-            7,
-            11
-          ]
-        },
-        {
-          "clip": "stop",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "stand",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "crouch",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "drink",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "recover",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "start",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": -25,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "end",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        }
-      ]
-    },
-    {
       "id": "greet-princess",
       "title": "Greet the Princess",
       "subtitle": "Run up to the Princess and greet her with an embrace.",
@@ -1743,24 +1530,22 @@
       ]
     },
     {
-      "id": "potion-return-right",
-      "title": "Potion, turn, and return right",
-      "subtitle": "Run in from the right, drink, turn around, and run back right.",
-      "route": "R  \u003e  potion  \u003e  R",
-      "direction": -1,
-      "startX": 164,
-      "hasPotion": true,
-      "startDelayTicks": 24,
-      "potionX": 46,
+      "id": "greet-princess-left",
+      "title": "Greet the Princess (from the left)",
+      "subtitle": "Run up to the Princess from the left and greet her with an embrace.",
+      "route": "L  \u003e  Princess",
+      "direction": 1,
+      "startX": -12,
+      "ticksPerSecond": 10,
+      "startDelayTicks": 20,
       "steps": [
         {
           "clip": "run",
           "startFrameIndex": 1,
           "repeat": 1,
-          "untilX": 71,
+          "untilX": 36,
           "exitOnFrames": [
-            7,
-            11
+
           ]
         },
         {
@@ -1773,79 +1558,7 @@
           ]
         },
         {
-          "clip": "stand",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "crouch",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "drink",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "recover",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "standingTurn",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "stand",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "start",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": 165,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "end",
+          "clip": "greeting",
           "startFrameIndex": 0,
           "repeat": 1,
           "untilX": null,
@@ -1853,117 +1566,31 @@
 
           ]
         }
-      ]
-    },
-    {
-      "id": "potion-return-left",
-      "title": "Potion, turn, and return left",
-      "subtitle": "Run in from the left, stop, turn toward the potion, drink, and run back left.",
-      "route": "L  \u003e  potion  \u003e  L",
-      "direction": 1,
-      "startX": -29,
-      "hasPotion": true,
-      "startDelayTicks": 24,
-      "potionX": 46,
-      "steps": [
+      ],
+      "actors": [
         {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": 49,
-          "exitOnFrames": [
-            7,
-            11
-          ]
-        },
-        {
-          "clip": "stop",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
+          "name": "Princess",
+          "direction": 1,
+          "startX": 62,
+          "steps": [
+            {
+              "clip": "princessWait",
+              "startFrameIndex": 0,
+              "repeat": 1,
+              "untilX": null,
+              "exitOnFrames": [
 
-          ]
-        },
-        {
-          "clip": "stand",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
+              ]
+            },
+            {
+              "clip": "princessReunion",
+              "startFrameIndex": 0,
+              "repeat": 1,
+              "untilX": null,
+              "exitOnFrames": [
 
-          ]
-        },
-        {
-          "clip": "standingTurn",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "stand",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "crouch",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "drink",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "recover",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "start",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": -25,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "end",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
+              ]
+            }
           ]
         }
       ]
@@ -2154,72 +1781,6 @@
           "untilX": null,
           "exitOnFrames": [
 
-          ]
-        }
-      ]
-    },
-    {
-      "id": "greet-princess-left",
-      "title": "Greet the Princess (from the left)",
-      "subtitle": "Run up to the Princess from the left and greet her with an embrace.",
-      "route": "L  \u003e  Princess",
-      "direction": 1,
-      "startX": -12,
-      "ticksPerSecond": 10,
-      "startDelayTicks": 20,
-      "steps": [
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": 36,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "stop",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "greeting",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        }
-      ],
-      "actors": [
-        {
-          "name": "Princess",
-          "direction": 1,
-          "startX": 62,
-          "steps": [
-            {
-              "clip": "princessWait",
-              "startFrameIndex": 0,
-              "repeat": 1,
-              "untilX": null,
-              "exitOnFrames": [
-
-              ]
-            },
-            {
-              "clip": "princessReunion",
-              "startFrameIndex": 0,
-              "repeat": 1,
-              "untilX": null,
-              "exitOnFrames": [
-
-              ]
-            }
           ]
         }
       ]
