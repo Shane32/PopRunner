@@ -6,7 +6,7 @@ The repository excludes `src/PopRunner.Core/Assets` from source control. Do not 
 
 ## Local asset generation
 
-`src/PopRunner.ExtractAssets` is a .NET 10 console tool that reads the DOS DAT resource and image formats. Its two arguments are the game directory and the destination Assets directory. See the [README](../README.md) for the command. It supports the data files used by DOS versions 1.0, 1.1, 1.3, and 1.4 without relying on a directory's name to identify its contents.
+`src/PopRunner.ExtractAssets` is a .NET 11 console tool that reads the DOS DAT resource and image formats. Its two arguments are the game directory and the destination Assets directory. See the [README](../README.md) for the command. It supports the data files used by DOS versions 1.0, 1.1, 1.3, and 1.4 without relying on a directory's name to identify its contents.
 
 The tool prepares all 318 PNGs in memory before creating output directories or writing files. A resource parsing error therefore leaves the destination unchanged. The runtime projects do not depend on the tool.
 

@@ -10,6 +10,7 @@ public sealed class AnimationConfig
     public DesktopConfig Desktop { get; set; } = new();
     public StageConfig Stage { get; set; } = new();
     public PotionGraphics? PotionGraphics { get; set; }
+    [JsonConverter(typeof(SpriteEntriesJsonConverter))]
     public Dictionary<int, SpriteFrame> Sprites { get; set; } = [];
     public Dictionary<string, AnimationClip> Clips { get; set; } = [];
     public List<Scenario> Scenarios { get; set; } = [];
@@ -25,6 +26,8 @@ public sealed class AnimationConfig
         ArgumentNullException.ThrowIfNull(json);
         var config = JsonSerializer.Deserialize(json, AnimationJsonContext.Default.AnimationConfig)
             ?? throw new InvalidDataException("The configuration is empty.");
+        foreach (var sprite in config.Sprites.Values)
+            sprite.Image = AnimationResources.ResolveImagePath(sprite.Image);
         config.Validate();
         return config;
     }
@@ -203,6 +206,7 @@ public sealed class AnimationClip
     public bool Loop { get; set; }
     public double ExitDx { get; set; }
     public bool ExitFlip { get; set; }
+    [JsonConverter(typeof(FrameEntriesJsonConverter))]
     public List<FrameStep> Frames { get; set; } = [];
 }
 
@@ -232,6 +236,7 @@ public sealed class Scenario
     public int StartDelayTicks { get; set; }
     /// <summary>A finite route placed at its incoming primary-monitor edge by the desktop presentation.</summary>
     public bool DesktopEdgeEntry { get; set; }
+    [JsonConverter(typeof(StepEntriesJsonConverter))]
     public List<ScenarioStep> Steps { get; set; } = [];
     public List<SupportingActor> Actors { get; set; } = [];
 }
@@ -241,6 +246,7 @@ public sealed class SupportingActor
     public string Name { get; set; } = "";
     public int Direction { get; set; } = -1;
     public double StartX { get; set; }
+    [JsonConverter(typeof(StepEntriesJsonConverter))]
     public List<ScenarioStep> Steps { get; set; } = [];
 }
 

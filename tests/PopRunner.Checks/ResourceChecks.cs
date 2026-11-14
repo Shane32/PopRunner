@@ -45,6 +45,26 @@ internal static class ResourceChecks
                 "Both path forms must open identical image bytes.");
         });
 
+        Check.Run("Resources: unique filenames resolve to canonical paths and identical PNG bytes", () =>
+        {
+            var path = AnimationResources.ImagePaths.GroupBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase)
+                .First(group => group.Count() == 1).Single();
+            var fileName = Path.GetFileName(path);
+            foreach (var alias in new[] { fileName, fileName.ToUpperInvariant() })
+            {
+                Check.That(AnimationResources.ContainsImage(alias) && AnimationResources.ResolveImagePath(alias) == path,
+                    "A unique filename must resolve without exposing resource-folder details.");
+                using var original = AnimationResources.OpenImage(path);
+                using var alternate = AnimationResources.OpenImage(alias);
+                using var originalBytes = new MemoryStream();
+                using var alternateBytes = new MemoryStream();
+                original.CopyTo(originalBytes);
+                alternate.CopyTo(alternateBytes);
+                Check.That(originalBytes.ToArray().AsSpan().SequenceEqual(alternateBytes.ToArray()),
+                    "Filename aliases must open the original embedded image bytes.");
+            }
+        });
+
         Check.Run("Resources: absent images and traversal paths are rejected", () =>
         {
             var path = AnimationResources.ImagePaths.First();

@@ -4,9 +4,9 @@ Project source code is licensed under the [MIT License](LICENSE), copyright 2026
 
 PopRunner is intended for **personal, recreational, non-commercial use** with a copy of DOS Prince of Persia that you are licensed to use. The game artwork and data remain copyrighted by their respective rights holders. This Git repository excludes the copyrighted assets. Use the asset extraction tool with your licensed copy to create them locally; see [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
-**Before building either desktop app**, follow [Extract source artwork](#extract-source-artwork) to populate `src/PopRunner.Core/Assets`. The .NET 10 console extractor builds independently of Core and its assets. Local app builds embed those generated images.
+**Before building either desktop app**, follow [Extract source artwork](#extract-source-artwork) to populate `src/PopRunner.Core/Assets`. The .NET 11 console extractor builds independently of Core and its assets. Local app builds embed those generated images.
 
-`src/PopRunner` is a .NET 10 Native AOT tray app using Win32 DLL calls. It has no Windows Forms, WPF, System.Drawing, or COM dependency. The miniature Prince tray icon uses the original sprite artwork. **Double-click** it to randomly play any of sequences **1–10**; a single click does not start playback. The right-click menu has bold **Play Random**, a **Play** submenu listing all configured sequences, **Automatic Trigger**, **About** (a native message box that states "Not for distribution"), and **Exit**. Selecting another animation restarts playback immediately.
+`src/PopRunner` is a .NET 11 Native AOT tray app using Win32 DLL calls. It has no Windows Forms, WPF, System.Drawing, or COM dependency. The miniature Prince tray icon uses the original sprite artwork. **Double-click** it to randomly play any of sequences **1–10**; a single click does not start playback. The right-click menu has bold **Play Random**, a **Play** submenu listing all configured sequences, **Automatic Trigger**, **About** (a native message box that states "Not for distribution"), and **Exit**. Selecting another animation restarts playback immediately.
 
 **Automatic Trigger** offers **Hourly**, **Daily**, **Weekly** (the default), and **Disabled**, with a radio mark on the selected option. While enabled, a Win32 timer checks once every 60 seconds. It skips playback unless the current Windows session is active and unlocked, keyboard or mouse input occurred within the last five minutes, no microphone use is recorded, and no sequence is already playing. Eligible checks make one independent random draw:
 
@@ -23,13 +23,13 @@ The activity gate uses [WTS session state](https://learn.microsoft.com/en-us/win
 
 The Prince moves along the top of the primary taskbar in a topmost, nonactivating, per-pixel-alpha window. The floor baseline meets the taskbar; sprites retain their original per-pose foot movement. Every pixel passes mouse input to the windows underneath, including opaque sprite pixels. The window is bounded by the primary monitor, so sprites clip at its edges. It hides when the sequence finishes, leaving the tray icon available for another run. Slides, potions, and the Princess are placed about one-third of the monitor width from the edge the Prince enters. Potion and greeting sequences first show the potion or Princess for two seconds before the Prince starts running; potion bubbles animate throughout this delay. Careful-step sequences begin just outside the monitor, step fully into view, hold for four seconds, and back out through the same edge without turning. Routes adapt to the monitor while preserving original per-pose movement and animation clocks. The Princess waits for the longer approach before the original reunion handoff. All desktop adaptations use copies of the source scenes; the sample's routes are unchanged.
 
-Double-click **`Launch.cmd`** to run `artifacts/native/PopRunner.exe`. The published native executable needs no installed .NET runtime or loose assets. To build it, use the .NET 10 SDK and Windows C++ build tools:
+Double-click **`Launch.cmd`** to run `artifacts/native/PopRunner.exe`. The published native executable needs no installed .NET runtime or loose assets. To build it, use the .NET 11 SDK and Windows C++ build tools:
 
 ```powershell
 dotnet publish src/PopRunner -c Release -o artifacts/native
 ```
 
-AOT and trimming analyzers are enabled in both PopRunner and Core. Native publishes use the runtime/compiler patch selected by the .NET 10 SDK; update the SDK and republish to incorporate newer patches. Its `LibraryImport` declarations and unmanaged window callbacks are compiled ahead of time. PNG handling uses managed byte buffers and `ZLibStream`; GDI DIBs and `UpdateLayeredWindow` present the transparent sprite without a UI framework.
+AOT and trimming analyzers are enabled in both PopRunner and Core. Native publishes use the runtime/compiler patch selected by the .NET 11 SDK; update the SDK and republish to incorporate newer patches. Its `LibraryImport` declarations and unmanaged window callbacks are compiled ahead of time. PNG handling uses managed byte buffers and `ZLibStream`; GDI DIBs and `UpdateLayeredWindow` present the transparent sprite without a UI framework.
 
 Desktop settings live in the embedded `src/PopRunner.Core/animation.json`:
 
@@ -56,7 +56,7 @@ The enabled build checks all 318 locally generated sprites, pixel fidelity and c
 
 ## Windows Forms sample
 
-A .NET 10 Windows Forms desktop demo using standard Windows controls and a double-buffered GDI+ sprite surface. The extraction tool can generate 251 Prince, 59 Princess, and 8 potion PNGs from a licensed game copy into `src/PopRunner.Core/Assets`. A local build embeds the configuration and those 318 PNGs in `PopRunner.Core.dll` and reads them as resource streams. Running sequences enter from offscreen; the careful-step sequences start just outside an edge:
+A .NET 11 Windows Forms desktop demo using standard Windows controls and a double-buffered GDI+ sprite surface. The extraction tool can generate 251 Prince, 59 Princess, and 8 potion PNGs from a licensed game copy into `src/PopRunner.Core/Assets`. A local build embeds the configuration and those 318 PNGs in `PopRunner.Core.dll` and reads them as resource streams. Running sequences enter from offscreen; the careful-step sequences start just outside an edge:
 
 1. Run from left to right.
 2. Run from right to left.
@@ -73,13 +73,13 @@ A .NET 10 Windows Forms desktop demo using standard Windows controls and a doubl
 
 Double-click **`Launch.Sample.cmd`**. It starts the sample in `artifacts/demo/PopRunner.Sample.exe` with its embedded configuration and sprites.
 
-Windows with the .NET 10 Desktop Runtime is required. To build and run from source, install the .NET 10 SDK and generate the assets first:
+Windows with the .NET 11 Desktop Runtime is required. To build and run from source, install the .NET 11 SDK and generate the assets first:
 
 ```powershell
 dotnet run --project src/PopRunner.Sample -c Release
 ```
 
-Open `PopRunner.slnx` to work on the solution. No third-party NuGet packages are needed.
+Open `PopRunner.slnx` to work on the solution. `global.json` selects the .NET 11 SDK, and the `net11.0` targets use C# 15, including its type-union support. No third-party NuGet packages are needed.
 
 ## Controls
 
@@ -100,6 +100,12 @@ The frame strip follows the active clip and highlights the current pose. Turn of
 ## Adjusting motion
 
 Edit **`src/PopRunner.Core/animation.json`**, then **rebuild and restart the app** to use the changes. The same rebuild and restart is required after changing images in `src/PopRunner.Core/Assets`. F5 reloads the defaults embedded in the running build; View JSON displays those defaults read-only. JSON comments and trailing commas are accepted; unknown property names are rejected to catch typos.
+
+Properties and sections that match the defaults in [AnimationConfig.cs](src/PopRunner.Core/AnimationConfig.cs) are omitted from the supplied JSON. Add any documented setting to override its default. For example, `{ "clip": "end" }` uses `startFrameIndex: 0`, `repeat: 1`, `untilX: null`, and `exitOnFrames: []`. Omitted values follow the C# defaults if those defaults change.
+
+Three entry types accept either shorthand or an object. Sprite values may be a unique PNG filename, such as `"res407.png"`, or a sprite object with `image` and any nondefault alignment metadata. Both forms also accept full logical paths such as `"Assets/Prince/res407.png"`. Clip frames may be a frame number, such as `15`, or an object such as `{ "frame": 8, "dx": 5 }`. Sequence steps may be a clip name, such as `"end"`, or an object such as `{ "clip": "run", "untilX": 120 }`; this applies to the Prince and supporting actors. Shorthand uses the same defaults as the corresponding object. The supplied JSON writes each sprite, frame, or step object on one line. Images remain in their `Prince`, `Princess`, or `Potion` folders; bare filenames resolve to the matching embedded resource.
+
+Core represents these input alternatives with C# type unions and normalizes them once while loading. It also resolves sprite filenames to their full logical resource paths before validation. The animation engine and callers continue to use the existing sprite, frame, and step objects. JSON conversion uses source-generated metadata and remains compatible with Native AOT.
 
 | JSON location | Meaning |
 | --- | --- |
@@ -147,7 +153,7 @@ The large red potion uses the original **10 × 15** dungeon vessel (`PRINCE.DAT`
 
 ## Extract source artwork
 
-`PopRunner.ExtractAssets` is a .NET 10 console tool, built without Native AOT. With a licensed copy of **DOS Prince of Persia 1.0, 1.1, 1.3, or 1.4**, it can extract all **318** copyrighted images needed by Core for personal recreational use: **251 Prince**, **59 Princess**, and **8 large red potion** images. Replace the example game directory with the location of your licensed copy.
+`PopRunner.ExtractAssets` is a .NET 11 console tool, built without Native AOT. With a licensed copy of **DOS Prince of Persia 1.0, 1.1, 1.3, or 1.4**, it can extract all **318** copyrighted images needed by Core for personal recreational use: **251 Prince**, **59 Princess**, and **8 large red potion** images. Replace the example game directory with the location of your licensed copy.
 
 ```powershell
 dotnet run --project src/PopRunner.ExtractAssets -c Release -- "C:\Games\Prince" "src\PopRunner.Core\Assets"
@@ -165,7 +171,7 @@ To verify against licensed copies of all four supported versions, substitute you
 
 ```powershell
 dotnet run --project tests/PopRunner.ExtractAssets.Checks -c Release -- `
-  'src/PopRunner.ExtractAssets/bin/Release/net10.0/PopRunner.ExtractAssets.dll' `
+  'src/PopRunner.ExtractAssets/bin/Release/net11.0/PopRunner.ExtractAssets.dll' `
   'src/PopRunner.Core/Assets' 'artifacts/extractor-checks' `
   'C:\Games\Prince-1.0' `
   'C:\Games\Prince-1.1' `

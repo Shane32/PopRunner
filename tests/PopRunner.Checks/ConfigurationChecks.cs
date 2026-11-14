@@ -171,6 +171,8 @@ internal static class ConfigurationChecks
                 "Omitting the start delay preserves immediate animation startup.");
             Check.That(loaded.Scenarios[0].Actors[0].Name == "companion", "The custom actor must round-trip.");
         });
+
+        UnionJsonChecks.Run();
     }
 
     private static AnimationConfig ValidConfig()

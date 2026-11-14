@@ -134,6 +134,20 @@ public partial class MainForm : Form
             StartScenario(scenarioComboBox.SelectedIndex);
     }
 
+    private void ScenarioSelectionChanged(object? sender, EventArgs e) => ScenarioChanged();
+    private void PlayClicked(object? sender, EventArgs e) => TogglePlay();
+    private void RestartClicked(object? sender, EventArgs e) => Restart();
+    private void StepClicked(object? sender, EventArgs e) => StepFrame();
+    private void ViewConfigClicked(object? sender, EventArgs e) => ViewConfig();
+    private void ReloadConfigClicked(object? sender, EventArgs e) => ReloadConfig();
+    private void ExitClicked(object? sender, EventArgs e) => Close();
+
+    private void GuidesCheckedChanged(object? sender, EventArgs e)
+    {
+        stageView.ShowGuides = guidesCheckBox.Checked;
+        stageView.Invalidate();
+    }
+
     private void TogglePlay()
     {
         if (engine.Completed) StartScenario(scenarioComboBox.SelectedIndex);

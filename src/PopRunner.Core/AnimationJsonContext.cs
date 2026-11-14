@@ -10,6 +10,9 @@ namespace PopRunner.Core;
     AllowTrailingCommas = true,
     UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow)]
 [JsonSerializable(typeof(AnimationConfig))]
+[JsonSerializable(typeof(SpriteFrame))]
+[JsonSerializable(typeof(FrameStep))]
+[JsonSerializable(typeof(ScenarioStep))]
 internal partial class AnimationJsonContext : JsonSerializerContext
 {
 }

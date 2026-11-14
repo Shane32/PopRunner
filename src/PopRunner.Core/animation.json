@@ -2,7 +2,7 @@
   "notes": [
     "12 animation ticks/sec = original 60 Hz timer divided by base_speed 5. UI refresh does not change animation speed.",
     "All dx, startX, untilX, potionX and sprite anchorX values use original DOS movement units. 1 unit = 16/7 native screen pixels.",
-        "Sprites are mapped by the original frame table, not by frame+400. The complete reference table matches the reference DOS v1.4 executable byte-for-byte.",
+    "Sprites are mapped by the original frame table, not by frame+400. The complete reference table matches the reference DOS v1.4 executable byte-for-byte.",
     "Each frame dx is applied once BEFORE showing that frame. ticks controls pose duration without repeating movement.",
     "exitDx runs in the old direction BEFORE exitFlip. The run-turn handoff enters run at index 6 (frame 13).",
     "untilX triggers after the current pose duration. exitOnFrames can delay braking until a legal original pose (7 or 11).",
@@ -25,39 +25,6 @@
     "carefulStepBack rewinds those poses and their positions without turning. Its pre-frame dx values undo the next forward pose's entry movement, rather than merely reversing and negating the forward list; this rewind is demo choreography.",
     "desktopEdgeEntry marks finite routes without untilX targets. The desktop renderer translates these routes to their incoming monitor edge without adding running cycles or changing their scripted travel distance."
   ],
-  "clock": {
-    "ticksPerSecond": 12,
-    "maxCatchUpSeconds": 0.5
-  },
-  "desktop": {
-    "spriteScale": 2,
-    "timerIntervalMilliseconds": 15,
-    "taskbarGapPixels": 0,
-    "actionEdgeFraction": 0.33333333333333331,
-    "randomScenarioIds": [
-      "across-right",
-      "across-left",
-      "turn-from-left",
-      "turn-from-right",
-      "greet-princess",
-      "greet-princess-left",
-      "potion-direct-return-right",
-      "potion-direct-return-left",
-      "careful-step-right",
-      "careful-step-left"
-    ]
-  },
-  "stage": {
-    "width": 320,
-    "height": 100,
-    "floorY": 78,
-    "pixelAspectY": 1.2,
-    "movementUnitPixels": 2.2857142857142856,
-    "preStretchPixelSize": 1.1428571428571428,
-    "quantizeToPixels": true,
-    "showGuides": false,
-    "autoAdvance": true
-  },
   "potionGraphics": {
     "bodyFrame": 2000,
     "bubbleFrames": [
@@ -69,8 +36,6 @@
       2006,
       2007
     ],
-    "ticksPerFrame": 1,
-    "initialBubbleFrame": 0,
     "alignWithFeet": true,
     "bodyOffsetX": -5,
     "bodyOffsetY": 4,
@@ -78,1231 +43,295 @@
     "bubbleOffsetY": -11
   },
   "sprites": {
-    "1": {
-      "image": "Assets/Prince/res401.png",
-      "anchorX": 1,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "2": {
-      "image": "Assets/Prince/res402.png",
-      "anchorX": 1,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "3": {
-      "image": "Assets/Prince/res403.png",
-      "anchorX": 3,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "4": {
-      "image": "Assets/Prince/res404.png",
-      "anchorX": 4,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "5": {
-      "image": "Assets/Prince/res405.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "6": {
-      "image": "Assets/Prince/res406.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "7": {
-      "image": "Assets/Prince/res407.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "8": {
-      "image": "Assets/Prince/res408.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "9": {
-      "image": "Assets/Prince/res409.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "10": {
-      "image": "Assets/Prince/res410.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "11": {
-      "image": "Assets/Prince/res411.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "12": {
-      "image": "Assets/Prince/res412.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "13": {
-      "image": "Assets/Prince/res413.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "14": {
-      "image": "Assets/Prince/res414.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "15": {
-      "image": "Assets/Prince/res415.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "45": {
-      "image": "Assets/Prince/res445.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "46": {
-      "image": "Assets/Prince/res446.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "47": {
-      "image": "Assets/Prince/res447.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "48": {
-      "image": "Assets/Prince/res448.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "49": {
-      "image": "Assets/Prince/res449.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "50": {
-      "image": "Assets/Prince/res450.png",
-      "anchorX": 4,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "51": {
-      "image": "Assets/Prince/res451.png",
-      "anchorX": 3,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "52": {
-      "image": "Assets/Prince/res452.png",
-      "anchorX": 1,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "53": {
-      "image": "Assets/Prince/res465.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "54": {
-      "image": "Assets/Prince/res466.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "55": {
-      "image": "Assets/Prince/res467.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "56": {
-      "image": "Assets/Prince/res468.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "57": {
-      "image": "Assets/Prince/res469.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "58": {
-      "image": "Assets/Prince/res470.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "59": {
-      "image": "Assets/Prince/res471.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "60": {
-      "image": "Assets/Prince/res472.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "61": {
-      "image": "Assets/Prince/res473.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "62": {
-      "image": "Assets/Prince/res474.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "63": {
-      "image": "Assets/Prince/res475.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "64": {
-      "image": "Assets/Prince/res476.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "65": {
-      "image": "Assets/Prince/res477.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "121": {
-      "image": "Assets/Prince/res534.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "122": {
-      "image": "Assets/Prince/res535.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "123": {
-      "image": "Assets/Prince/res536.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "124": {
-      "image": "Assets/Prince/res537.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "125": {
-      "image": "Assets/Prince/res538.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "126": {
-      "image": "Assets/Prince/res539.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "127": {
-      "image": "Assets/Prince/res540.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "128": {
-      "image": "Assets/Prince/res541.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "129": {
-      "image": "Assets/Prince/res542.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "130": {
-      "image": "Assets/Prince/res543.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "131": {
-      "image": "Assets/Prince/res544.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "132": {
-      "image": "Assets/Prince/res545.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "191": {
-      "image": "Assets/Prince/res593.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "192": {
-      "image": "Assets/Prince/res594.png",
-      "anchorX": 0,
-      "anchorY": 1,
-      "oddPixel": false
-    },
-    "193": {
-      "image": "Assets/Prince/res595.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "194": {
-      "image": "Assets/Prince/res596.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "195": {
-      "image": "Assets/Prince/res597.png",
-      "anchorX": -1,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "196": {
-      "image": "Assets/Prince/res598.png",
-      "anchorX": -1,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "197": {
-      "image": "Assets/Prince/res599.png",
-      "anchorX": -1,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "198": {
-      "image": "Assets/Prince/res600.png",
-      "anchorX": -4,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "199": {
-      "image": "Assets/Prince/res601.png",
-      "anchorX": -4,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "200": {
-      "image": "Assets/Prince/res602.png",
-      "anchorX": -4,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "201": {
-      "image": "Assets/Prince/res603.png",
-      "anchorX": -4,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "202": {
-      "image": "Assets/Prince/res604.png",
-      "anchorX": -4,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "203": {
-      "image": "Assets/Prince/res605.png",
-      "anchorX": -4,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "204": {
-      "image": "Assets/Prince/res606.png",
-      "anchorX": -5,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "205": {
-      "image": "Assets/Prince/res607.png",
-      "anchorX": -5,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "1020": {
-      "image": "Assets/Princess/res903.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "1021": {
-      "image": "Assets/Princess/res904.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "1022": {
-      "image": "Assets/Princess/res905.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "1023": {
-      "image": "Assets/Princess/res906.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "1024": {
-      "image": "Assets/Princess/res907.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "1025": {
-      "image": "Assets/Princess/res908.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": true
-    },
-    "1026": {
-      "image": "Assets/Princess/res909.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "1027": {
-      "image": "Assets/Princess/res910.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "1028": {
-      "image": "Assets/Princess/res911.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "1029": {
-      "image": "Assets/Princess/res912.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "1030": {
-      "image": "Assets/Princess/res913.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "1031": {
-      "image": "Assets/Princess/res914.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "1032": {
-      "image": "Assets/Princess/res915.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "1033": {
-      "image": "Assets/Princess/res916.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "2000": {
-      "image": "Assets/Potion/res163.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "2001": {
-      "image": "Assets/Potion/res166-red.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "2002": {
-      "image": "Assets/Potion/res167-red.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "2003": {
-      "image": "Assets/Potion/res168-red.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "2004": {
-      "image": "Assets/Potion/res169-red.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "2005": {
-      "image": "Assets/Potion/res170-red.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "2006": {
-      "image": "Assets/Potion/res171-red.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    },
-    "2007": {
-      "image": "Assets/Potion/res172-red.png",
-      "anchorX": 0,
-      "anchorY": 0,
-      "oddPixel": false
-    }
+    "1": { "image": "res401.png", "anchorX": 1, "oddPixel": true },
+    "2": { "image": "res402.png", "anchorX": 1 },
+    "3": { "image": "res403.png", "anchorX": 3 },
+    "4": { "image": "res404.png", "anchorX": 4 },
+    "5": { "image": "res405.png", "oddPixel": true },
+    "6": "res406.png",
+    "7": "res407.png",
+    "8": { "image": "res408.png", "oddPixel": true },
+    "9": "res409.png",
+    "10": "res410.png",
+    "11": "res411.png",
+    "12": "res412.png",
+    "13": { "image": "res413.png", "oddPixel": true },
+    "14": "res414.png",
+    "15": "res415.png",
+    "45": { "image": "res445.png", "oddPixel": true },
+    "46": { "image": "res446.png", "oddPixel": true },
+    "47": { "image": "res447.png", "oddPixel": true },
+    "48": { "image": "res448.png", "oddPixel": true },
+    "49": "res449.png",
+    "50": { "image": "res450.png", "anchorX": 4 },
+    "51": { "image": "res451.png", "anchorX": 3 },
+    "52": { "image": "res452.png", "anchorX": 1 },
+    "53": { "image": "res465.png", "oddPixel": true },
+    "54": "res466.png",
+    "55": "res467.png",
+    "56": "res468.png",
+    "57": "res469.png",
+    "58": { "image": "res470.png", "oddPixel": true },
+    "59": "res471.png",
+    "60": { "image": "res472.png", "oddPixel": true },
+    "61": "res473.png",
+    "62": { "image": "res474.png", "oddPixel": true },
+    "63": "res475.png",
+    "64": "res476.png",
+    "65": { "image": "res477.png", "oddPixel": true },
+    "121": "res534.png",
+    "122": { "image": "res535.png", "oddPixel": true },
+    "123": { "image": "res536.png", "oddPixel": true },
+    "124": "res537.png",
+    "125": "res538.png",
+    "126": { "image": "res539.png", "oddPixel": true },
+    "127": "res540.png",
+    "128": { "image": "res541.png", "oddPixel": true },
+    "129": "res542.png",
+    "130": "res543.png",
+    "131": "res544.png",
+    "132": "res545.png",
+    "191": "res593.png",
+    "192": { "image": "res594.png", "anchorY": 1 },
+    "193": { "image": "res595.png", "oddPixel": true },
+    "194": "res596.png",
+    "195": { "image": "res597.png", "anchorX": -1 },
+    "196": { "image": "res598.png", "anchorX": -1 },
+    "197": { "image": "res599.png", "anchorX": -1 },
+    "198": { "image": "res600.png", "anchorX": -4 },
+    "199": { "image": "res601.png", "anchorX": -4, "oddPixel": true },
+    "200": { "image": "res602.png", "anchorX": -4 },
+    "201": { "image": "res603.png", "anchorX": -4 },
+    "202": { "image": "res604.png", "anchorX": -4 },
+    "203": { "image": "res605.png", "anchorX": -4 },
+    "204": { "image": "res606.png", "anchorX": -5 },
+    "205": { "image": "res607.png", "anchorX": -5 },
+    "1020": "res903.png",
+    "1021": "res904.png",
+    "1022": { "image": "res905.png", "oddPixel": true },
+    "1023": "res906.png",
+    "1024": { "image": "res907.png", "oddPixel": true },
+    "1025": { "image": "res908.png", "oddPixel": true },
+    "1026": "res909.png",
+    "1027": "res910.png",
+    "1028": "res911.png",
+    "1029": "res912.png",
+    "1030": "res913.png",
+    "1031": "res914.png",
+    "1032": "res915.png",
+    "1033": "res916.png",
+    "2000": "res163.png",
+    "2001": "res166-red.png",
+    "2002": "res167-red.png",
+    "2003": "res168-red.png",
+    "2004": "res169-red.png",
+    "2005": "res170-red.png",
+    "2006": "res171-red.png",
+    "2007": "res172-red.png"
   },
   "clips": {
     "carefulStep": {
       "label": "Careful step forward",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 121,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 122,
-          "dx": 1,
-          "ticks": 1
-        },
-        {
-          "frame": 123,
-          "dx": 1,
-          "ticks": 1
-        },
-        {
-          "frame": 124,
-          "dx": 3,
-          "ticks": 1
-        },
-        {
-          "frame": 125,
-          "dx": 4,
-          "ticks": 1
-        },
-        {
-          "frame": 126,
-          "dx": 3,
-          "ticks": 1
-        },
-        {
-          "frame": 127,
-          "dx": -1,
-          "ticks": 1
-        },
-        {
-          "frame": 128,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 129,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 130,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 131,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 132,
-          "dx": 0,
-          "ticks": 1
-        }
+        121,
+        { "frame": 122, "dx": 1 },
+        { "frame": 123, "dx": 1 },
+        { "frame": 124, "dx": 3 },
+        { "frame": 125, "dx": 4 },
+        { "frame": 126, "dx": 3 },
+        { "frame": 127, "dx": -1 },
+        128,
+        129,
+        130,
+        131,
+        132
       ]
     },
     "carefulHold": {
       "label": "Looking around",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 15,
-          "dx": 0,
-          "ticks": 48
-        }
+        { "frame": 15, "ticks": 48 }
       ]
     },
     "carefulStepBack": {
       "label": "Careful step backward",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 132,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 131,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 130,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 129,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 128,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 127,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 126,
-          "dx": 1,
-          "ticks": 1
-        },
-        {
-          "frame": 125,
-          "dx": -3,
-          "ticks": 1
-        },
-        {
-          "frame": 124,
-          "dx": -4,
-          "ticks": 1
-        },
-        {
-          "frame": 123,
-          "dx": -3,
-          "ticks": 1
-        },
-        {
-          "frame": 122,
-          "dx": -1,
-          "ticks": 1
-        },
-        {
-          "frame": 121,
-          "dx": -1,
-          "ticks": 1
-        },
-        {
-          "frame": 15,
-          "dx": 0,
-          "ticks": 1
-        }
+        132,
+        131,
+        130,
+        129,
+        128,
+        127,
+        { "frame": 126, "dx": 1 },
+        { "frame": 125, "dx": -3 },
+        { "frame": 124, "dx": -4 },
+        { "frame": 123, "dx": -3 },
+        { "frame": 122, "dx": -1 },
+        { "frame": 121, "dx": -1 },
+        15
       ]
     },
     "ready": {
       "label": "Ready",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 15,
-          "dx": 0,
-          "ticks": 5
-        }
+        { "frame": 15, "ticks": 5 }
       ]
     },
     "start": {
       "label": "Accelerating",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 1,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 2,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 3,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 4,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 5,
-          "dx": 8,
-          "ticks": 1
-        },
-        {
-          "frame": 6,
-          "dx": 3,
-          "ticks": 1
-        },
-        {
-          "frame": 7,
-          "dx": 3,
-          "ticks": 1
-        }
+        1,
+        2,
+        3,
+        4,
+        { "frame": 5, "dx": 8 },
+        { "frame": 6, "dx": 3 },
+        { "frame": 7, "dx": 3 }
       ]
     },
     "run": {
       "label": "Running",
       "loop": true,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 7,
-          "dx": 4,
-          "ticks": 1
-        },
-        {
-          "frame": 8,
-          "dx": 5,
-          "ticks": 1
-        },
-        {
-          "frame": 9,
-          "dx": 1,
-          "ticks": 1
-        },
-        {
-          "frame": 10,
-          "dx": 2,
-          "ticks": 1
-        },
-        {
-          "frame": 11,
-          "dx": 4,
-          "ticks": 1
-        },
-        {
-          "frame": 12,
-          "dx": 5,
-          "ticks": 1
-        },
-        {
-          "frame": 13,
-          "dx": 2,
-          "ticks": 1
-        },
-        {
-          "frame": 14,
-          "dx": 3,
-          "ticks": 1
-        }
+        { "frame": 7, "dx": 4 },
+        { "frame": 8, "dx": 5 },
+        { "frame": 9, "dx": 1 },
+        { "frame": 10, "dx": 2 },
+        { "frame": 11, "dx": 4 },
+        { "frame": 12, "dx": 5 },
+        { "frame": 13, "dx": 2 },
+        { "frame": 14, "dx": 3 }
       ]
     },
     "skidTurn": {
       "label": "Sliding reversal",
-      "loop": false,
       "exitDx": -14,
       "exitFlip": true,
       "frames": [
-        {
-          "frame": 53,
-          "dx": 1,
-          "ticks": 1
-        },
-        {
-          "frame": 54,
-          "dx": 1,
-          "ticks": 1
-        },
-        {
-          "frame": 55,
-          "dx": 8,
-          "ticks": 1
-        },
-        {
-          "frame": 56,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 57,
-          "dx": 7,
-          "ticks": 1
-        },
-        {
-          "frame": 58,
-          "dx": 3,
-          "ticks": 1
-        },
-        {
-          "frame": 59,
-          "dx": 1,
-          "ticks": 1
-        },
-        {
-          "frame": 60,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 61,
-          "dx": 2,
-          "ticks": 1
-        },
-        {
-          "frame": 62,
-          "dx": -1,
-          "ticks": 1
-        },
-        {
-          "frame": 63,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 64,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 65,
-          "dx": -1,
-          "ticks": 1
-        }
+        { "frame": 53, "dx": 1 },
+        { "frame": 54, "dx": 1 },
+        { "frame": 55, "dx": 8 },
+        56,
+        { "frame": 57, "dx": 7 },
+        { "frame": 58, "dx": 3 },
+        { "frame": 59, "dx": 1 },
+        60,
+        { "frame": 61, "dx": 2 },
+        { "frame": 62, "dx": -1 },
+        63,
+        64,
+        { "frame": 65, "dx": -1 }
       ]
     },
     "stop": {
       "label": "Braking",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 53,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 54,
-          "dx": 2,
-          "ticks": 1
-        },
-        {
-          "frame": 55,
-          "dx": 7,
-          "ticks": 1
-        },
-        {
-          "frame": 56,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 49,
-          "dx": 2,
-          "ticks": 1
-        },
-        {
-          "frame": 50,
-          "dx": -2,
-          "ticks": 1
-        },
-        {
-          "frame": 51,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 52,
-          "dx": 0,
-          "ticks": 1
-        }
+        53,
+        { "frame": 54, "dx": 2 },
+        { "frame": 55, "dx": 7 },
+        56,
+        { "frame": 49, "dx": 2 },
+        { "frame": 50, "dx": -2 },
+        51,
+        52
       ]
     },
     "shortStop": {
       "label": "Quick braking",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 53,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 54,
-          "dx": 2,
-          "ticks": 1
-        },
-        {
-          "frame": 55,
-          "dx": 7,
-          "ticks": 1
-        },
-        {
-          "frame": 56,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 49,
-          "dx": 2,
-          "ticks": 1
-        },
-        {
-          "frame": 50,
-          "dx": -2,
-          "ticks": 1
-        },
-        {
-          "frame": 51,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 52,
-          "dx": 0,
-          "ticks": 1
-        }
+        53,
+        { "frame": 54, "dx": 2 },
+        { "frame": 55, "dx": 7 },
+        56,
+        { "frame": 49, "dx": 2 },
+        { "frame": 50, "dx": -2 },
+        51,
+        52
       ]
     },
     "shortStand": {
       "label": "Stopped before drinking",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 15,
-          "dx": 0,
-          "ticks": 1
-        }
+        15
       ]
     },
     "drink": {
       "label": "Drinking potion",
-      "loop": false,
       "exitDx": -4,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 191,
-          "dx": 4,
-          "ticks": 1,
-          "hidePotion": true
-        },
-        {
-          "frame": 192,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 193,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 194,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 195,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 196,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 197,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 198,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 199,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 200,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 201,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 202,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 203,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 204,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 205,
-          "dx": 0,
-          "ticks": 3
-        },
-        {
-          "frame": 205,
-          "dx": 0,
-          "ticks": 1,
-          "consumePotion": true
-        },
-        {
-          "frame": 205,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 201,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 198,
-          "dx": 0,
-          "ticks": 1
-        }
+        { "frame": 191, "dx": 4, "hidePotion": true },
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        { "frame": 205, "ticks": 3 },
+        { "frame": 205, "consumePotion": true },
+        205,
+        201,
+        198
       ]
     },
     "shortRecover": {
       "label": "Potion restored",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 15,
-          "dx": 0,
-          "ticks": 1
-        }
+        15
       ]
     },
     "shortStandingTurn": {
       "label": "Quick turn",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 45,
-          "dx": -6,
-          "ticks": 1,
-          "flip": true
-        },
-        {
-          "frame": 46,
-          "dx": 1,
-          "ticks": 1
-        },
-        {
-          "frame": 47,
-          "dx": 2,
-          "ticks": 1
-        },
-        {
-          "frame": 48,
-          "dx": -1,
-          "ticks": 1
-        },
-        {
-          "frame": 49,
-          "dx": 1,
-          "ticks": 1
-        },
-        {
-          "frame": 50,
-          "dx": -2,
-          "ticks": 1
-        },
-        {
-          "frame": 51,
-          "dx": 0,
-          "ticks": 1
-        }
+        { "frame": 45, "dx": -6, "flip": true },
+        { "frame": 46, "dx": 1 },
+        { "frame": 47, "dx": 2 },
+        { "frame": 48, "dx": -1 },
+        { "frame": 49, "dx": 1 },
+        { "frame": 50, "dx": -2 },
+        51
       ]
     },
     "end": {
       "label": "Complete",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 7,
-          "dx": 0,
-          "ticks": 9
-        }
+        { "frame": 7, "ticks": 9 }
       ]
     },
     "princessWait": {
       "label": "Waiting for the Prince",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 1020,
-          "dx": 0,
-          "ticks": 10
-        }
+        { "frame": 1020, "ticks": 10 }
       ]
     },
     "princessReunion": {
       "label": "Reunion",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 1021,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 1022,
-          "dx": 1,
-          "ticks": 1
-        },
-        {
-          "frame": 1023,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 1024,
-          "dx": 0,
-          "ticks": 1
-        },
-        {
-          "frame": 1025,
-          "dx": 1,
-          "ticks": 1
-        },
-        {
-          "frame": 1026,
-          "dx": -3,
-          "ticks": 1
-        },
-        {
-          "frame": 1027,
-          "dx": -2,
-          "ticks": 1
-        },
-        {
-          "frame": 1028,
-          "dx": -4,
-          "ticks": 1,
-          "hidePrimaryActor": true
-        },
-        {
-          "frame": 1029,
-          "dx": -3,
-          "ticks": 1
-        },
-        {
-          "frame": 1030,
-          "dx": -2,
-          "ticks": 1
-        },
-        {
-          "frame": 1031,
-          "dx": -3,
-          "ticks": 1
-        },
-        {
-          "frame": 1032,
-          "dx": -1,
-          "ticks": 1
-        },
-        {
-          "frame": 1033,
-          "dx": 0,
-          "ticks": 33
-        }
+        1021,
+        { "frame": 1022, "dx": 1 },
+        1023,
+        1024,
+        { "frame": 1025, "dx": 1 },
+        { "frame": 1026, "dx": -3 },
+        { "frame": 1027, "dx": -2 },
+        { "frame": 1028, "dx": -4, "hidePrimaryActor": true },
+        { "frame": 1029, "dx": -3 },
+        { "frame": 1030, "dx": -2 },
+        { "frame": 1031, "dx": -3 },
+        { "frame": 1032, "dx": -1 },
+        { "frame": 1033, "ticks": 33 }
       ]
     },
     "greeting": {
       "label": "Greeting the Princess",
-      "loop": false,
-      "exitDx": 0,
-      "exitFlip": false,
       "frames": [
-        {
-          "frame": 15,
-          "dx": 0,
-          "ticks": 32
-        }
+        { "frame": 15, "ticks": 32 }
       ]
     }
   },
@@ -1311,220 +340,73 @@
       "id": "across-right",
       "title": "Run to the right",
       "subtitle": "Enter running from the left, then cross the room.",
-      "route": "L  \u003e  R",
-      "direction": 1,
+      "route": "L  >  R",
       "startX": -24,
-      "hasPotion": false,
-      "potionX": 0,
       "steps": [
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": 165,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "end",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        }
+        { "clip": "run", "startFrameIndex": 1, "untilX": 165 },
+        "end"
       ]
     },
     {
       "id": "across-left",
       "title": "Run to the left",
       "subtitle": "The mirrored running sequence.",
-      "route": "R  \u003e  L",
+      "route": "R  >  L",
       "direction": -1,
       "startX": 164,
-      "hasPotion": false,
-      "potionX": 0,
       "steps": [
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": -25,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "end",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        }
+        { "clip": "run", "startFrameIndex": 1, "untilX": -25 },
+        "end"
       ]
     },
     {
       "id": "turn-from-left",
       "title": "Slide and return left",
       "subtitle": "Run in, skid, reverse, run back.",
-      "route": "L  \u003e  \u003c",
-      "direction": 1,
+      "route": "L  >  <",
       "startX": -24,
-      "hasPotion": false,
-      "potionX": 0,
       "steps": [
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": 76,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "skidTurn",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "run",
-          "startFrameIndex": 6,
-          "repeat": 1,
-          "untilX": -25,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "end",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        }
+        { "clip": "run", "startFrameIndex": 1, "untilX": 76 },
+        "skidTurn",
+        { "clip": "run", "startFrameIndex": 6, "untilX": -25 },
+        "end"
       ]
     },
     {
       "id": "turn-from-right",
       "title": "Slide and return right",
       "subtitle": "The reversal from the other side.",
-      "route": "\u003e  \u003c  R",
+      "route": ">  <  R",
       "direction": -1,
       "startX": 164,
-      "hasPotion": false,
-      "potionX": 0,
       "steps": [
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": 64,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "skidTurn",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "run",
-          "startFrameIndex": 6,
-          "repeat": 1,
-          "untilX": 165,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "end",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        }
+        { "clip": "run", "startFrameIndex": 1, "untilX": 64 },
+        "skidTurn",
+        { "clip": "run", "startFrameIndex": 6, "untilX": 165 },
+        "end"
       ]
     },
     {
       "id": "greet-princess",
       "title": "Greet the Princess",
       "subtitle": "Run up to the Princess and greet her with an embrace.",
-      "route": "R  \u003e  Princess",
+      "route": "R  >  Princess",
       "direction": -1,
       "startX": 152,
       "ticksPerSecond": 10,
       "startDelayTicks": 20,
       "steps": [
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": 104,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "stop",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "greeting",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        }
+        { "clip": "run", "startFrameIndex": 1, "untilX": 104 },
+        "stop",
+        "greeting"
       ],
       "actors": [
         {
           "name": "Princess",
-          "direction": -1,
           "startX": 78,
           "steps": [
-            {
-              "clip": "princessWait",
-              "startFrameIndex": 0,
-              "repeat": 1,
-              "untilX": null,
-              "exitOnFrames": [
-
-              ]
-            },
-            {
-              "clip": "princessReunion",
-              "startFrameIndex": 0,
-              "repeat": 1,
-              "untilX": null,
-              "exitOnFrames": [
-
-              ]
-            }
+            "princessWait",
+            "princessReunion"
           ]
         }
       ]
@@ -1533,39 +415,14 @@
       "id": "greet-princess-left",
       "title": "Greet the Princess (from the left)",
       "subtitle": "Run up to the Princess from the left and greet her with an embrace.",
-      "route": "L  \u003e  Princess",
-      "direction": 1,
+      "route": "L  >  Princess",
       "startX": -12,
       "ticksPerSecond": 10,
       "startDelayTicks": 20,
       "steps": [
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": 36,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "stop",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "greeting",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        }
+        { "clip": "run", "startFrameIndex": 1, "untilX": 36 },
+        "stop",
+        "greeting"
       ],
       "actors": [
         {
@@ -1573,24 +430,8 @@
           "direction": 1,
           "startX": 62,
           "steps": [
-            {
-              "clip": "princessWait",
-              "startFrameIndex": 0,
-              "repeat": 1,
-              "untilX": null,
-              "exitOnFrames": [
-
-              ]
-            },
-            {
-              "clip": "princessReunion",
-              "startFrameIndex": 0,
-              "repeat": 1,
-              "untilX": null,
-              "exitOnFrames": [
-
-              ]
-            }
+            "princessWait",
+            "princessReunion"
           ]
         }
       ]
@@ -1599,190 +440,43 @@
       "id": "potion-direct-return-right",
       "title": "Quick potion stop and return right",
       "subtitle": "Run in from the right, brake briefly, drink, turn quickly, and run back right.",
-      "route": "R  \u003e  potion  \u003e  R",
+      "route": "R  >  potion  >  R",
       "direction": -1,
       "startX": 173,
       "hasPotion": true,
       "startDelayTicks": 24,
       "potionX": 46,
       "steps": [
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": 57,
-          "exitOnFrames": [
-            7,
-            11
-          ]
-        },
-        {
-          "clip": "shortStop",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "shortStand",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "drink",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "shortRecover",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "shortStandingTurn",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "start",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": 165,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "end",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        }
+        { "clip": "run", "startFrameIndex": 1, "untilX": 57, "exitOnFrames": [7, 11] },
+        "shortStop",
+        "shortStand",
+        "drink",
+        "shortRecover",
+        "shortStandingTurn",
+        "start",
+        { "clip": "run", "startFrameIndex": 1, "untilX": 165 },
+        "end"
       ]
     },
     {
       "id": "potion-direct-return-left",
       "title": "Quick potion stop and return left",
       "subtitle": "Run in from the left, brake briefly, drink, turn quickly, and run back left.",
-      "route": "L  \u003e  potion  \u003e  L",
-      "direction": 1,
+      "route": "L  >  potion  >  L",
       "startX": -33,
       "hasPotion": true,
       "startDelayTicks": 24,
       "potionX": 94,
       "steps": [
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": 83,
-          "exitOnFrames": [
-            7,
-            11
-          ]
-        },
-        {
-          "clip": "shortStop",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "shortStand",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "drink",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "shortRecover",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "shortStandingTurn",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "start",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "run",
-          "startFrameIndex": 1,
-          "repeat": 1,
-          "untilX": -25,
-          "exitOnFrames": [
-
-          ]
-        },
-        {
-          "clip": "end",
-          "startFrameIndex": 0,
-          "repeat": 1,
-          "untilX": null,
-          "exitOnFrames": [
-
-          ]
-        }
+        { "clip": "run", "startFrameIndex": 1, "untilX": 83, "exitOnFrames": [7, 11] },
+        "shortStop",
+        "shortStand",
+        "drink",
+        "shortRecover",
+        "shortStandingTurn",
+        "start",
+        { "clip": "run", "startFrameIndex": 1, "untilX": -25 },
+        "end"
       ]
     },
     {
@@ -1790,20 +484,13 @@
       "title": "Careful step in from the left",
       "subtitle": "Step in carefully, wait four seconds, then retrace the step offscreen without turning.",
       "route": "L  >  pause  >  L",
-      "direction": 1,
       "startX": -1,
       "ticksPerSecond": 12,
       "desktopEdgeEntry": true,
       "steps": [
-        {
-          "clip": "carefulStep"
-        },
-        {
-          "clip": "carefulHold"
-        },
-        {
-          "clip": "carefulStepBack"
-        }
+        "carefulStep",
+        "carefulHold",
+        "carefulStepBack"
       ]
     },
     {
@@ -1816,15 +503,9 @@
       "ticksPerSecond": 12,
       "desktopEdgeEntry": true,
       "steps": [
-        {
-          "clip": "carefulStep"
-        },
-        {
-          "clip": "carefulHold"
-        },
-        {
-          "clip": "carefulStepBack"
-        }
+        "carefulStep",
+        "carefulHold",
+        "carefulStepBack"
       ]
     }
   ]

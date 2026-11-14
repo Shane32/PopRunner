@@ -7,6 +7,9 @@ namespace PopRunner.Checks;
     GenerationMode = JsonSourceGenerationMode.Metadata,
     PropertyNameCaseInsensitive = true)]
 [JsonSerializable(typeof(AnimationConfig))]
+[JsonSerializable(typeof(SpriteFrame))]
+[JsonSerializable(typeof(FrameStep))]
+[JsonSerializable(typeof(ScenarioStep))]
 internal partial class ChecksJsonContext : JsonSerializerContext
 {
 }
