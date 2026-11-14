@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/PopRunner/PopRunner.csproj" />
+    <Project Path="src/PopRunner.Core/PopRunner.Core.csproj" />
+    <Project Path="src/PopRunner.ExtractAssets/PopRunner.ExtractAssets.csproj" />
+    <Project Path="src/PopRunner.Sample/PopRunner.Sample.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/PopRunner.Checks/PopRunner.Checks.csproj" />
+    <Project Path="tests/PopRunner.ExtractAssets.Checks/PopRunner.ExtractAssets.Checks.csproj" />
+  </Folder>
+</Solution>

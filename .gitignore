@@ -1,0 +1,42 @@
+# .NET build, publish, and verification output
+**/[Bb]in/
+**/[Oo]bj/
+**/[Dd][Ii][Ss][Tt]/
+/artifacts/
+/TestResults/
+*.coverage
+*.coveragexml
+*.log
+
+# Visual Studio and local IDE settings
+.vs/
+*.user
+*.suo
+*.rsuser
+*.userosscache
+*.sln.docstates
+
+# Copyrighted game artwork is generated locally from a licensed copy.
+/src/PopRunner.Core/Assets/
+
+# Local game imports, downloads, and compiled binaries
+*.[zZ][iI][pP]
+*.7z
+*.[rR][aA][rR]
+*.[dD][aA][tT]
+*.exe
+*.dll
+*.pdb
+
+# Temporary reference files and preview/check fixtures
+/research/*.c
+/research/*.h
+/sprite-contact-sheet.png
+/.animation-check-invalid.json
+/.animation-ui-check-*.json
+/.sprite-ui-check-*.png
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
