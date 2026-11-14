@@ -35,8 +35,8 @@ internal static class NativeAutomaticTriggerChecks
             () => calls.Add("play"),
             upperBound => { calls.Add($"draw:{upperBound}"); return draw < 0 ? upperBound - 1 : draw; },
             registrySubKey);
-        check(automatic.Frequency == AutomaticTriggerFrequency.Daily,
-            "A missing automatic-trigger preference must default to Daily.");
+        check(automatic.Frequency == AutomaticTriggerFrequency.Weekly,
+            "A missing automatic-trigger preference must default to Weekly.");
 
         automatic.SetFrequency(AutomaticTriggerFrequency.Disabled);
         automatic.OnMinute();
@@ -103,16 +103,16 @@ internal static class NativeAutomaticTriggerChecks
         using (var key = Registry.CurrentUser.CreateSubKey(registrySubKey, writable: true))
         {
             key.SetValue(AutomaticTrigger.RegistryValueName, 99, RegistryValueKind.DWord);
-            check(Load().Frequency == AutomaticTriggerFrequency.Daily,
-                "An unknown persisted automatic-trigger value must fall back to Daily.");
+            check(Load().Frequency == AutomaticTriggerFrequency.Weekly,
+                "An unknown persisted automatic-trigger value must fall back to Weekly.");
 
             key.SetValue(AutomaticTrigger.RegistryValueName, "1", RegistryValueKind.String);
-            check(Load().Frequency == AutomaticTriggerFrequency.Daily,
-                "A preference with the wrong registry value type must fall back to Daily.");
+            check(Load().Frequency == AutomaticTriggerFrequency.Weekly,
+                "A preference with the wrong registry value type must fall back to Weekly.");
 
             key.DeleteValue(AutomaticTrigger.RegistryValueName);
-            check(Load().Frequency == AutomaticTriggerFrequency.Daily,
-                "A missing value in an existing preference key must fall back to Daily.");
+            check(Load().Frequency == AutomaticTriggerFrequency.Weekly,
+                "A missing value in an existing preference key must fall back to Weekly.");
         }
     }
 

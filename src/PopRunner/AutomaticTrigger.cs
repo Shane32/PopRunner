@@ -3,12 +3,23 @@ using Microsoft.Win32;
 
 namespace PopRunner;
 
-// Values are persisted as a DWORD. Keep their meanings stable between releases.
+/// <summary>The average automatic playback frequency during eligible computer use.</summary>
+/// <remarks>
+/// Values are persisted as a registry DWORD and must keep their meanings between releases.
+/// Daily and weekly intervals use the usage-hour assumptions in <see cref="AutomaticTrigger"/>.
+/// </remarks>
 internal enum AutomaticTriggerFrequency
 {
+    /// <summary>Disables automatic playback while allowing manual playback.</summary>
     Disabled = 0,
+
+    /// <summary>Targets one playback per hour of eligible use, on average.</summary>
     Hourly = 1,
+
+    /// <summary>Targets one playback per assumed day of eligible use, on average.</summary>
     Daily = 2,
+
+    /// <summary>Targets one playback per assumed week of eligible use, on average.</summary>
     Weekly = 3
 }
 
@@ -20,6 +31,8 @@ internal sealed class AutomaticTrigger
 {
     internal const string RegistrySubKey = @"Software\PopRunner";
     internal const string RegistryValueName = "AutomaticTrigger";
+    private const int AssumedHoursPerDay = 8;
+    private const int AssumedHoursPerWeek = 40;
 
     private readonly Func<bool> isEligible;
     private readonly Func<bool> isPlaying;
@@ -29,6 +42,10 @@ internal sealed class AutomaticTrigger
 
     public AutomaticTriggerFrequency Frequency { get; private set; }
 
+    /// <summary>Creates a trigger using the persisted frequency or the Weekly default.</summary>
+    /// <param name="isEligible">Reports whether current activity permits automatic playback.</param>
+    /// <param name="isPlaying">Reports whether an animation is already playing.</param>
+    /// <param name="playRandom">Starts a sequence from the configured random selection pool.</param>
     /// <param name="nextRandom">
     /// Returns a uniform integer from zero, inclusive, to the supplied bound, exclusive.
     /// Checks can supply a deterministic draw without changing the user's settings.
@@ -71,8 +88,8 @@ internal sealed class AutomaticTrigger
         var opportunities = Frequency switch
         {
             AutomaticTriggerFrequency.Hourly => 60,
-            AutomaticTriggerFrequency.Daily => 8 * 60,
-            AutomaticTriggerFrequency.Weekly => 40 * 60,
+            AutomaticTriggerFrequency.Daily => AssumedHoursPerDay * 60,
+            AutomaticTriggerFrequency.Weekly => AssumedHoursPerWeek * 60,
             _ => 0
         };
         if (opportunities == 0 || isPlaying() || !isEligible()) return;
@@ -94,7 +111,7 @@ internal sealed class AutomaticTrigger
         {
             // An inaccessible preference must not prevent the tray from starting.
         }
-        return AutomaticTriggerFrequency.Daily;
+        return AutomaticTriggerFrequency.Weekly;
     }
 
     private static bool IsValidFrequency(AutomaticTriggerFrequency frequency) => frequency is

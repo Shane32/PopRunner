@@ -107,10 +107,10 @@ internal static unsafe class NativeSmokeChecks
                     TrayHost.FirstAutomaticTriggerCommand + (uint)frequencies[index],
                 "An automatic trigger menu choice is missing or mislabeled.");
         }
-        Check(automaticTrigger.Frequency == AutomaticTriggerFrequency.Daily &&
+        Check(automaticTrigger.Frequency == AutomaticTriggerFrequency.Weekly &&
             (SmokeNative.GetMenuState(tray.AutomaticMenuHandle,
-                TrayHost.FirstAutomaticTriggerCommand + (uint)AutomaticTriggerFrequency.Daily, 0) & 8) != 0,
-            "Automatic playback must default to Daily with a menu selection mark.");
+                TrayHost.FirstAutomaticTriggerCommand + (uint)AutomaticTriggerFrequency.Weekly, 0) & 8) != 0,
+            "Automatic playback must default to Weekly with a menu selection mark.");
         for (var index = 0; index < config.Scenarios.Count; index++)
         {
             length = SmokeNative.GetMenuStringW(tray.ScenarioMenuHandle, (uint)index, text, 128, 0x400);
